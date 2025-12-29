@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>测试积分排行榜</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            background: #f5f7fa;
+            color: #333;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #667eea;
+        }
+        .btn {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            margin: 10px;
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>测试积分排行榜</h1>
+        <div style="text-align: center;">
+            <button class="btn" onclick="generateTestUsers()">生成测试用户数据</button>
+            <button class="btn" onclick="clearAllData()">清空所有数据</button>
+            <button class="btn" onclick="showCurrentData()">查看当前数据</button>
+            <button class="btn" onclick="openAdmin()">打开管理员后台</button>
+        </div>
+        <div class="result" id="result"></div>
+    </div>
+    
+    <script src="scripts/storage.js"></script>
+    <script>
+        // 初始化StorageManager
+        window.storageManager = new window.StorageManager();
+        
+        // 生成测试用户数据
+        function generateTestUsers() {
+            // 生成10个测试用户
+            const testUsers = [
+                { username: '小明', grade: 1, class: 1, school: '阳光小学', score: 1250, role: 'student', completedQuestions: [], ownedItems: [] },
+                { username: '小红', grade: 2, class: 2, school: '阳光小学', score: 1800, role: 'student', completedQuestions: [], ownedItems: [] },
+                { username: '小刚', grade: 1, class: 3, school: '希望小学', score: 950, role: 'student', completedQuestions: [], ownedItems: [] },
+                { username: '小丽', grade: 3, class: 1, school: '未来小学', score: 2100, role: 'student', completedQuestions: [], ownedItems: [] },
+                { username: '小强', grade: 2, class: 4, school: '希望小学', score: 1500, role: 'student', completedQuestions: [], ownedItems: [] },
+                { username: '小美', grade: 3, class: 2, school: '未来小学', score: 1750, role: 'student', completedQuestions: [], ownedItems: [] },
+                { username: '小亮', grade: 4, class: 1, school: '阳光小学', score: 1350, role: 'student', completedQuestions: [], ownedItems: [] },
+                { username: '小花', grade: 4, class: 3, school: '希望小学', score: 1600, role: 'student', completedQuestions: [], ownedItems: [] },
+                { username: '小宇', grade: 5, class: 2, school: '未来小学', score: 1900, role: 'student', completedQuestions: [], ownedItems: [] },
+                { username: '小凡', grade: 5, class: 4, school: '阳光小学', score: 1450, role: 'student', completedQuestions: [], ownedItems: [] }
+            ];
+            
+            // 保存测试用户
+            testUsers.forEach(user => {
+                // 密码加密
+                user.password = window.storageManager.encryptPassword('123456');
+                window.storageManager.saveUser(user);
+            });
+            
+            showResult('成功生成10个测试用户数据！');
+        }
+        
+        // 清空所有数据
+        function clearAllData() {
+            if (confirm('确定要清空所有数据吗？')) {
+                localStorage.clear();
+                // 重新初始化
+                window.storageManager = new window.StorageManager();
+                showResult('已清空所有数据！');
+            }
+        }
+        
+        // 查看当前数据
+        function showCurrentData() {
+            const users = window.storageManager.getUsers();
+            const sortedUsers = users.filter(user => user.role !== 'admin')
+                                   .sort((a, b) => b.score - a.score);
+            
+            let html = '<h3>当前用户数据（按积分排序）：</h3><ul>';
+            sortedUsers.forEach((user, index) => {
+                html += `<li>${index + 1}. ${user.username} - ${user.score}积分 (${user.grade}年级${user.class}班)</li>`;
+            });
+            html += '</ul>';
+            
+            document.getElementById('result').innerHTML = html;
+        }
+        
+        // 打开管理员后台
+        function openAdmin() {
+            window.open('admin.html', '_blank');
+        }
+        
+        // 显示结果
+        function showResult(message) {
+            document.getElementById('result').innerHTML = `<p style="color: #667eea; font-weight: bold;">${message}</p>`;
+        }
+    </script>
+</body>
+</html>

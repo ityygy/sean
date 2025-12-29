@@ -1,0 +1,482 @@
+<!DOCTYPE html> <!-- HTML5文档类型声明 -->
+<html lang="zh-CN"> <!-- 中文语言设置 -->
+<head>
+    <meta charset="UTF-8"> <!-- 字符编码设置为UTF-8 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 响应式设计，适配不同设备宽度 -->
+    <title>管理员后台</title> <!-- 页面标题 -->
+    <link rel="stylesheet" href="styles/admin.css"> <!-- 引入管理员后台样式文件 -->
+</head>
+<body>
+    <div class="admin-container"> <!-- 管理员后台主容器 -->
+        <!-- 顶部导航栏 -->
+        <header class="admin-header"> <!-- 顶部导航栏 -->
+            <div class="header-left"> <!-- 左侧标题区域 -->
+                <h1>管理员后台</h1> <!-- 页面标题 -->
+            </div>
+            <div class="header-right"> <!-- 右侧功能区域 -->
+                <span>欢迎，管理员</span> <!-- 欢迎信息 -->
+                <button id="admin-back-btn" class="btn btn-secondary">返回首页</button> <!-- 返回首页按钮 -->
+                <button id="admin-logout-btn" class="btn btn-secondary">退出登录</button> <!-- 退出登录按钮 -->
+            </div>
+        </header>
+        
+        <!-- 侧边菜单和主内容区域 -->
+        <div class="admin-main"> <!-- 主内容容器 -->
+            <aside class="sidebar"> <!-- 侧边栏菜单 -->
+                <nav> <!-- 导航菜单 -->
+                    <ul> <!-- 导航列表 -->
+                    <li><a href="#" class="nav-item active" data-section="user-management">用户管理</a></li> <!-- 用户管理菜单项，当前激活 -->
+                    <li><a href="#" class="nav-item" data-section="leaderboard">积分排行榜</a></li> <!-- 积分排行榜菜单项 -->
+                    <li><a href="#" class="nav-item" data-section="question-management">题库管理</a></li> <!-- 题库管理菜单项 -->
+                    <li><a href="#" class="nav-item" data-section="store-management">商城管理</a></li> <!-- 商城管理菜单项 -->
+                    <li><a href="#" class="nav-item" data-section="redemption-records">积分兑换记录</a></li> <!-- 积分兑换记录菜单项 -->
+                </ul>
+                </nav>
+            </aside>
+            
+            <!-- 主内容区域 -->
+            <main class="content"> <!-- 主内容区域 -->
+                <!-- 用户管理区域 -->
+                <section id="user-management" class="content-section active"> <!-- 用户管理内容区块，当前激活 -->
+                    <div class="section-header"> <!-- 区域标题 -->
+                        <h2>用户管理</h2> <!-- 区域标题文字 -->
+                        <div class="search-box"> <!-- 搜索框容器 -->
+                            <input type="text" id="user-search" placeholder="搜索用户名..."> <!-- 搜索输入框 -->
+                            <button id="search-user-btn" class="btn btn-primary">搜索</button> <!-- 搜索按钮 -->
+                        </div>
+                    </div>
+                    
+                    <div class="table-container"> <!-- 表格容器 -->
+                        <table id="user-table" class="data-table"> <!-- 用户数据表格 -->
+                            <thead> <!-- 表格表头 -->
+                                <tr> <!-- 表头行 -->
+                                    <th>用户名</th> <!-- 用户名列 -->
+                                    <th>年级</th> <!-- 年级列 -->
+                                    <th>班级</th> <!-- 班级列 -->
+                                    <th>学校</th> <!-- 学校列 -->
+                                    <th>积分</th> <!-- 积分列 -->
+                                    <th>操作</th> <!-- 操作列 -->
+                                </tr>
+                            </thead>
+                            <tbody> <!-- 表格主体 -->
+                                <!-- 用户数据将通过JS动态生成 --> <!-- 提示：用户数据将由JavaScript动态填充 -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+                
+                <!-- 积分排行榜区域 -->
+                <section id="leaderboard" class="content-section"> <!-- 积分排行榜内容区块 -->
+                    <div class="section-header"> <!-- 区域标题 -->
+                        <h2>积分排行榜</h2> <!-- 区域标题文字 -->
+                    </div>
+                    
+                    <!-- 前三名展示区域 -->
+                    <div class="top-three-container"> <!-- 前三名容器 -->
+                        <div class="top-three-header"> <!-- 前三名标题 -->
+                            <h3>积分榜前三名</h3> <!-- 前三名标题文字 -->
+                        </div>
+                        <div class="top-three"> <!-- 前三名展示 -->
+                            <!-- 第二名 -->
+                            <div class="top-user second-place"> <!-- 第二名用户 -->
+                                <div class="medal silver">🏆</div> <!-- 银牌 -->
+                                <div class="user-info"> <!-- 用户信息 -->
+                                    <div class="user-name" id="second-username">暂无用户</div> <!-- 用户名 -->
+                                    <div class="user-score" id="second-score">0</div> <!-- 用户积分 -->
+                                    <div class="user-grade-class" id="second-grade-class">--年级--班</div> <!-- 年级班级 -->
+                                </div>
+                            </div>
+                            <!-- 第一名 -->
+                            <div class="top-user first-place"> <!-- 第一名用户 -->
+                                <div class="medal gold">🏆</div> <!-- 金牌 -->
+                                <div class="user-info"> <!-- 用户信息 -->
+                                    <div class="user-name" id="first-username">暂无用户</div> <!-- 用户名 -->
+                                    <div class="user-score" id="first-score">0</div> <!-- 用户积分 -->
+                                    <div class="user-grade-class" id="first-grade-class">--年级--班</div> <!-- 年级班级 -->
+                                </div>
+                            </div>
+                            <!-- 第三名 -->
+                            <div class="top-user third-place"> <!-- 第三名用户 -->
+                                <div class="medal bronze">🏆</div> <!-- 铜牌 -->
+                                <div class="user-info"> <!-- 用户信息 -->
+                                    <div class="user-name" id="third-username">暂无用户</div> <!-- 用户名 -->
+                                    <div class="user-score" id="third-score">0</div> <!-- 用户积分 -->
+                                    <div class="user-grade-class" id="third-grade-class">--年级--班</div> <!-- 年级班级 -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 完整排行榜表格 -->
+                    <div class="table-container"> <!-- 表格容器 -->
+                        <h3>完整积分排行榜</h3> <!-- 完整排行榜标题 -->
+                        <table id="leaderboard-table" class="data-table"> <!-- 排行榜数据表格 -->
+                            <thead> <!-- 表格表头 -->
+                                <tr> <!-- 表头行 -->
+                                    <th>排名</th> <!-- 排名列 -->
+                                    <th>用户名</th> <!-- 用户名列 -->
+                                    <th>年级</th> <!-- 年级列 -->
+                                    <th>班级</th> <!-- 班级列 -->
+                                    <th>学校</th> <!-- 学校列 -->
+                                    <th>积分</th> <!-- 积分列 -->
+                                </tr>
+                            </thead>
+                            <tbody> <!-- 表格主体 -->
+                                <!-- 排行榜数据将通过JS动态生成 --> <!-- 提示：排行榜数据将由JavaScript动态填充 -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+                
+                <!-- 题库管理区域 -->
+                <section id="question-management" class="content-section"> <!-- 题库管理内容区块 -->
+                    <div class="section-header"> <!-- 区域标题 -->
+                        <h2>题库管理</h2> <!-- 区域标题文字 -->
+                        <div class="question-tabs"> <!-- 题目标签页 -->
+                            <button id="word-questions-tab" class="question-tab active">单词题目</button> <!-- 单词题目标签，当前激活 -->
+                            <button id="sentence-questions-tab" class="question-tab">句子题目</button> <!-- 句子题目标签 -->
+                        </div>
+                    </div>
+                    
+                    <!-- 添加题目区域 -->
+                    <div class="add-question-section"> <!-- 添加题目区域 -->
+                        <h3>添加题目</h3> <!-- 区域标题 -->
+                        <form id="add-question-form"> <!-- 添加题目表单 -->
+                            <div class="form-row"> <!-- 表单行 -->
+                                <div class="form-group"> <!-- 表单组 -->
+                                    <label for="question-type">类型</label> <!-- 标签：题目类型 -->
+                                    <select id="question-type"> <!-- 选择框：题目类型 -->
+                                        <option value="word">单词</option> <!-- 选项：单词 -->
+                                        <option value="sentence">句子</option> <!-- 选项：句子 -->
+                                    </select>
+                                </div>
+                                <div class="form-group"> <!-- 表单组 -->
+                                    <label for="question-grade">年级</label> <!-- 标签：年级 -->
+                                    <select id="question-grade"> <!-- 选择框：年级 -->
+                                        <option value="1">一年级</option> <!-- 选项：一年级 -->
+                                        <option value="2">二年级</option> <!-- 选项：二年级 -->
+                                        <option value="3">三年级</option> <!-- 选项：三年级 -->
+                                        <option value="4">四年级</option> <!-- 选项：四年级 -->
+                                        <option value="5">五年级</option> <!-- 选项：五年级 -->
+                                        <option value="6">六年级</option> <!-- 选项：六年级 -->
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row"> <!-- 表单行 -->
+                                <div class="form-group"> <!-- 表单组 -->
+                                    <label for="question-chinese">中文</label> <!-- 标签：中文内容 -->
+                                    <input type="text" id="question-chinese" required> <!-- 输入框：中文内容，必填 -->
+                                </div>
+                                <div class="form-group"> <!-- 表单组 -->
+                                    <label for="question-english">英文</label> <!-- 标签：英文内容 -->
+                                    <input type="text" id="question-english" required> <!-- 输入框：英文内容，必填 -->
+                                </div>
+                                <div class="form-group"> <!-- 表单组 -->
+                                    <label for="question-score">积分</label> <!-- 标签：积分 -->
+                                    <input type="number" id="question-score" min="1" required> <!-- 输入框：积分，必填，最小值为1 -->
+                                </div>
+                            </div>
+                            
+                            <div class="form-actions"> <!-- 表单操作按钮区域 -->
+                                <button type="submit" class="btn btn-primary">添加题目</button> <!-- 提交按钮：添加题目 -->
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <!-- 批量导入题目区域 -->
+                    <div class="batch-import-section"> <!-- 批量导入题目区域 -->
+                        <h3>批量导入题目</h3> <!-- 区域标题 -->
+                        <div class="import-info"> <!-- 导入说明区域 -->
+                            <p>导入格式：中文 | 英文 | 积分（每行一题）</p> <!-- 导入格式说明 -->
+                            <p>示例：苹果 | apple | 5</p> <!-- 导入示例 -->
+                        </div>
+                        <textarea id="batch-import-text" rows="10" placeholder="请输入批量导入的题目..."></textarea> <!-- 文本域：批量导入内容 -->
+                        <div class="form-actions"> <!-- 表单操作按钮区域 -->
+                            <button id="batch-import-btn" class="btn btn-primary">批量导入</button> <!-- 提交按钮：批量导入 -->
+                        </div>
+                    </div>
+                    
+                    <!-- 题目列表区域 -->
+                    <div class="questions-list"> <!-- 题目列表区域 -->
+                        <div class="section-header"> <!-- 区域标题 -->
+                            <h3>题目列表</h3> <!-- 区域标题文字 -->
+                            <div class="batch-actions"> <!-- 批量操作区域 -->
+                                <div class="batch-select"> <!-- 批量选择区域 -->
+                                    <input type="checkbox" id="select-all-questions"> <!-- 全选复选框 -->
+                                    <label for="select-all-questions">全选</label> <!-- 全选标签 -->
+                                    <span id="selected-count">0 道题目已选择</span> <!-- 已选择数量显示 -->
+                                </div>
+                                <div class="batch-buttons"> <!-- 批量操作按钮区域 -->
+                                    <button id="batch-delete-btn" class="btn btn-danger">批量删除</button> <!-- 批量删除按钮 -->
+                                    <button id="batch-edit-btn" class="btn btn-primary">批量修改</button> <!-- 批量修改按钮 -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-container"> <!-- 表格容器 -->
+                            <table id="question-table" class="data-table"> <!-- 题目数据表格 -->
+                                <thead> <!-- 表格表头 -->
+                                    <tr> <!-- 表头行 -->
+                                        <th><input type="checkbox" id="header-checkbox"></th> <!-- 全选复选框 -->
+                                        <th>ID</th> <!-- 题目ID列 -->
+                                        <th>类型</th> <!-- 题目类型列 -->
+                                        <th>年级</th> <!-- 年级列 -->
+                                        <th>中文</th> <!-- 中文内容列 -->
+                                        <th>英文</th> <!-- 英文内容列 -->
+                                        <th>积分</th> <!-- 积分列 -->
+                                        <th>操作</th> <!-- 操作列 -->
+                                    </tr>
+                                </thead>
+                                <tbody> <!-- 表格主体 -->
+                                    <!-- 题目数据将通过JS动态生成 --> <!-- 提示：题目数据将由JavaScript动态填充 -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+                <!-- 商城管理区域 -->
+                <section id="store-management" class="content-section"> <!-- 商城管理内容区块 -->
+                    <div class="section-header"> <!-- 区域标题 -->
+                        <h2>商城管理</h2> <!-- 区域标题文字 -->
+                        <div class="question-tabs"> <!-- 商城标签页 -->
+                            <button id="store-items-tab" class="question-tab active">商城物品</button> <!-- 商城物品标签，当前激活 -->
+                        </div>
+                    </div>
+                    
+                    <!-- 添加商城物品区域 -->
+                    <div class="add-question-section"> <!-- 添加商城物品区域 -->
+                        <h3>添加商城物品</h3> <!-- 区域标题 -->
+                        <form id="add-store-item-form"> <!-- 添加商城物品表单 -->
+                            <div class="form-row"> <!-- 表单行 -->
+                                <div class="form-group"> <!-- 表单组 -->
+                                    <label for="item-name">物品名称</label> <!-- 标签：物品名称 -->
+                                    <input type="text" id="item-name" required> <!-- 输入框：物品名称，必填 -->
+                                </div>
+                                <div class="form-group"> <!-- 表单组 -->
+                                    <label for="item-category">分类</label> <!-- 标签：分类 -->
+                                    <input type="text" id="item-category" required> <!-- 输入框：分类，必填 -->
+                                </div>
+                                <div class="form-group"> <!-- 表单组 -->
+                                    <label for="item-price">价格（积分）</label> <!-- 标签：价格（积分） -->
+                                    <input type="number" id="item-price" min="1" required> <!-- 输入框：价格，必填，最小值为1 -->
+                                </div>
+                            </div>
+                            <div class="form-row"> <!-- 表单行 -->
+                                <div class="form-group"> <!-- 表单组 -->
+                                    <label for="item-image">物品图标（表情符号）</label> <!-- 标签：物品图标 -->
+                                    <input type="text" id="item-image" required> <!-- 输入框：物品图标，必填 -->
+                                </div>
+                            </div>
+                            <div class="form-row"> <!-- 表单行 -->
+                                <div class="form-group"> <!-- 表单组 -->
+                                    <label for="item-description">物品描述</label> <!-- 标签：物品描述 -->
+                                    <textarea id="item-description" rows="3" required></textarea> <!-- 文本域：物品描述，必填 -->
+                                </div>
+                            </div>
+                            <div class="form-actions"> <!-- 表单操作按钮区域 -->
+                                <button type="submit" class="btn btn-primary">添加物品</button> <!-- 提交按钮：添加物品 -->
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <!-- 物品列表区域 -->
+                    <div class="questions-list"> <!-- 物品列表区域 -->
+                        <div class="section-header"> <!-- 区域标题 -->
+                            <h3>物品列表</h3> <!-- 区域标题文字 -->
+                        </div>
+                        <div class="table-container"> <!-- 表格容器 -->
+                            <table id="store-item-table" class="data-table"> <!-- 物品数据表格 -->
+                                <thead> <!-- 表格表头 -->
+                                    <tr> <!-- 表头行 -->
+                                        <th>ID</th> <!-- 物品ID列 -->
+                                        <th>图标</th> <!-- 物品图标列 -->
+                                        <th>名称</th> <!-- 物品名称列 -->
+                                        <th>分类</th> <!-- 物品分类列 -->
+                                        <th>价格</th> <!-- 物品价格列 -->
+                                        <th>描述</th> <!-- 物品描述列 -->
+                                        <th>操作</th> <!-- 操作列 -->
+                                    </tr>
+                                </thead>
+                                <tbody> <!-- 表格主体 -->
+                                    <!-- 物品数据将通过JS动态生成 --> <!-- 提示：物品数据将由JavaScript动态填充 -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- 积分兑换记录区域 -->
+                <section id="redemption-records" class="content-section">
+                    <div class="section-header">
+                        <h2>积分兑换记录</h2>
+                    </div>
+                    
+                    <div class="table-container">
+                        <table id="redemption-records-table" class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>交易ID</th>
+                                    <th>用户名</th>
+                                    <th>物品名称</th>
+                                    <th>价格（积分）</th>
+                                    <th>兑换时间</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- 兑换记录数据将通过JS动态生成 -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+    
+    <!-- 修改用户信息弹窗 -->
+    <div id="edit-user-modal" class="modal"> <!-- 修改用户信息弹窗 -->
+        <div class="modal-content"> <!-- 弹窗内容 -->
+            <div class="modal-header"> <!-- 弹窗头部 -->
+                <h3>修改用户信息</h3> <!-- 弹窗标题 -->
+                <button class="close-modal">&times;</button> <!-- 关闭按钮 -->
+            </div>
+            <form id="edit-user-form"> <!-- 修改用户信息表单 -->
+                <input type="hidden" id="edit-username"> <!-- 隐藏字段：用户名 -->
+                <div class="form-row"> <!-- 表单行 -->
+                    <div class="form-group"> <!-- 表单组 -->
+                        <label for="edit-grade">年级</label> <!-- 标签：年级 -->
+                        <select id="edit-grade"> <!-- 选择框：年级 -->
+                            <option value="1">一年级</option> <!-- 选项：一年级 -->
+                            <option value="2">二年级</option> <!-- 选项：二年级 -->
+                            <option value="3">三年级</option> <!-- 选项：三年级 -->
+                            <option value="4">四年级</option> <!-- 选项：四年级 -->
+                            <option value="5">五年级</option> <!-- 选项：五年级 -->
+                            <option value="6">六年级</option> <!-- 选项：六年级 -->
+                        </select>
+                    </div>
+                    <div class="form-group"> <!-- 表单组 -->
+                        <label for="edit-class">班级</label> <!-- 标签：班级 -->
+                        <input type="number" id="edit-class" min="1"> <!-- 输入框：班级，最小值为1 -->
+                    </div>
+                </div>
+                <div class="form-row"> <!-- 表单行 -->
+                    <div class="form-group"> <!-- 表单组 -->
+                        <label for="edit-school">学校</label> <!-- 标签：学校 -->
+                        <input type="text" id="edit-school"> <!-- 输入框：学校 -->
+                    </div>
+                    <div class="form-group"> <!-- 表单组 -->
+                        <label for="edit-score">积分</label> <!-- 标签：积分 -->
+                        <input type="number" id="edit-score" min="0"> <!-- 输入框：积分，最小值为0 -->
+                    </div>
+                </div>
+                <div class="form-row"> <!-- 表单行 -->
+                    <div class="form-group"> <!-- 表单组 -->
+                        <label for="edit-password">密码</label> <!-- 标签：密码 -->
+                        <input type="password" id="edit-password" placeholder="留空则不修改密码"> <!-- 输入框：密码，留空则不修改 -->
+                    </div>
+                </div>
+                <div class="form-actions"> <!-- 表单操作按钮区域 -->
+                    <button type="submit" class="btn btn-primary">保存修改</button> <!-- 提交按钮：保存修改 -->
+                    <button type="button" class="btn btn-secondary close-modal">取消</button> <!-- 取消按钮 -->
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- 修改题目弹窗 -->
+    <div id="edit-question-modal" class="modal"> <!-- 修改题目弹窗 -->
+        <div class="modal-content"> <!-- 弹窗内容 -->
+            <div class="modal-header"> <!-- 弹窗头部 -->
+                <h3>修改题目</h3> <!-- 弹窗标题 -->
+                <button class="close-modal">&times;</button> <!-- 关闭按钮 -->
+            </div>
+            <form id="edit-question-form"> <!-- 修改题目表单 -->
+                <input type="hidden" id="edit-question-id"> <!-- 隐藏字段：题目ID -->
+                <div class="form-row"> <!-- 表单行 -->
+                    <div class="form-group"> <!-- 表单组 -->
+                        <label for="edit-question-type">类型</label> <!-- 标签：题目类型 -->
+                        <select id="edit-question-type"> <!-- 选择框：题目类型 -->
+                            <option value="word">单词</option> <!-- 选项：单词 -->
+                            <option value="sentence">句子</option> <!-- 选项：句子 -->
+                        </select>
+                    </div>
+                    <div class="form-group"> <!-- 表单组 -->
+                        <label for="edit-question-grade">年级</label> <!-- 标签：年级 -->
+                        <select id="edit-question-grade"> <!-- 选择框：年级 -->
+                            <option value="1">一年级</option> <!-- 选项：一年级 -->
+                            <option value="2">二年级</option> <!-- 选项：二年级 -->
+                            <option value="3">三年级</option> <!-- 选项：三年级 -->
+                            <option value="4">四年级</option> <!-- 选项：四年级 -->
+                            <option value="5">五年级</option> <!-- 选项：五年级 -->
+                            <option value="6">六年级</option> <!-- 选项：六年级 -->
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row"> <!-- 表单行 -->
+                    <div class="form-group"> <!-- 表单组 -->
+                        <label for="edit-question-chinese">中文</label> <!-- 标签：中文内容 -->
+                        <input type="text" id="edit-question-chinese" required> <!-- 输入框：中文内容，必填 -->
+                    </div>
+                    <div class="form-group"> <!-- 表单组 -->
+                        <label for="edit-question-english">英文</label> <!-- 标签：英文内容 -->
+                        <input type="text" id="edit-question-english" required> <!-- 输入框：英文内容，必填 -->
+                    </div>
+                    <div class="form-group"> <!-- 表单组 -->
+                        <label for="edit-question-score">积分</label> <!-- 标签：积分 -->
+                        <input type="number" id="edit-question-score" min="1" required> <!-- 输入框：积分，必填，最小值为1 -->
+                    </div>
+                </div>
+                <div class="form-actions"> <!-- 表单操作按钮区域 -->
+                    <button type="submit" class="btn btn-primary">保存修改</button> <!-- 提交按钮：保存修改 -->
+                    <button type="button" class="btn btn-secondary close-modal">取消</button> <!-- 取消按钮 -->
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- 修改商城物品弹窗 -->
+    <div id="edit-store-item-modal" class="modal"> <!-- 修改商城物品弹窗 -->
+        <div class="modal-content"> <!-- 弹窗内容 -->
+            <div class="modal-header"> <!-- 弹窗头部 -->
+                <h3>修改商城物品</h3> <!-- 弹窗标题 -->
+                <button class="close-modal">&times;</button> <!-- 关闭按钮 -->
+            </div>
+            <form id="edit-store-item-form"> <!-- 修改商城物品表单 -->
+                <input type="hidden" id="edit-store-item-id"> <!-- 隐藏字段：物品ID -->
+                <div class="form-row"> <!-- 表单行 -->
+                    <div class="form-group"> <!-- 表单组 -->
+                        <label for="edit-item-name">物品名称</label> <!-- 标签：物品名称 -->
+                        <input type="text" id="edit-item-name" required> <!-- 输入框：物品名称，必填 -->
+                    </div>
+                    <div class="form-group"> <!-- 表单组 -->
+                        <label for="edit-item-category">分类</label> <!-- 标签：分类 -->
+                        <input type="text" id="edit-item-category" required> <!-- 输入框：分类，必填 -->
+                    </div>
+                    <div class="form-group"> <!-- 表单组 -->
+                        <label for="edit-item-price">价格（积分）</label> <!-- 标签：价格（积分） -->
+                        <input type="number" id="edit-item-price" min="1" required> <!-- 输入框：价格，必填，最小值为1 -->
+                    </div>
+                </div>
+                <div class="form-row"> <!-- 表单行 -->
+                    <div class="form-group"> <!-- 表单组 -->
+                        <label for="edit-item-image">物品图标（表情符号）</label> <!-- 标签：物品图标 -->
+                        <input type="text" id="edit-item-image" required> <!-- 输入框：物品图标，必填 -->
+                    </div>
+                </div>
+                <div class="form-row"> <!-- 表单行 -->
+                    <div class="form-group full-width"> <!-- 表单组：全宽 -->
+                        <label for="edit-item-description">物品描述</label> <!-- 标签：物品描述 -->
+                        <textarea id="edit-item-description" rows="3" required></textarea> <!-- 文本域：物品描述，必填 -->
+                    </div>
+                </div>
+                <div class="form-actions"> <!-- 表单操作按钮区域 -->
+                    <button type="submit" class="btn btn-primary">保存修改</button> <!-- 提交按钮：保存修改 -->
+                    <button type="button" class="btn btn-secondary close-modal">取消</button> <!-- 取消按钮 -->
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script src="scripts/storage.js"></script> <!-- 引入存储管理模块 -->
+    <script src="scripts/admin.js"></script> <!-- 引入管理员后台逻辑模块 -->
+</body>
+</html>

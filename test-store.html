@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>测试商城物品加载</title>
+</head>
+<body>
+    <h1>测试商城物品加载</h1>
+    <div id="test-result"></div>
+    
+    <script src="scripts/storage.js"></script>
+    <script>
+        // 测试StorageManager初始化
+        console.log('初始化StorageManager...');
+        
+        // 清空localStorage中的storeItems，模拟商城为空的情况
+        localStorage.removeItem('storeItems');
+        
+        // 重新创建StorageManager实例
+        window.storageManager = new window.StorageManager();
+        
+        // 检查商城物品
+        const storeItems = window.storageManager.getStoreItems();
+        console.log('商城物品数量:', storeItems.length);
+        console.log('商城物品:', storeItems);
+        
+        // 显示结果
+        const resultDiv = document.getElementById('test-result');
+        resultDiv.innerHTML = `
+            <h2>测试结果</h2>
+            <p>商城物品数量: ${storeItems.length}</p>
+            <h3>商城物品列表:</h3>
+            <ul>
+                ${storeItems.map(item => `<li>${item.name} - ${item.price}积分 (${item.category})</li>`).join('')}
+            </ul>
+        `;
+    </script>
+</body>
+</html>

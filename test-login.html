@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+        }
+        .log {
+            background: #f0f0f0;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>登录测试页面</h1>
+    
+    <div class="test-section">
+        <h2>1. 测试StorageManager</h2>
+        <button onclick="testStorageManager()">测试StorageManager</button>
+        <div id="storage-log" class="log"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>2. 测试登录验证</h2>
+        <input type="text" id="test-username" placeholder="用户名" value="admin">
+        <input type="password" id="test-password" placeholder="密码" value="admin123">
+        <button onclick="testLoginValidation()">测试登录验证</button>
+        <div id="login-log" class="log"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>3. 测试sessionStorage</h2>
+        <button onclick="testSessionStorage()">测试sessionStorage</button>
+        <div id="session-log" class="log"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>4. 测试跳转</h2>
+        <button onclick="testRedirect()">测试跳转</button>
+        <div id="redirect-log" class="log"></div>
+    </div>
+    
+    <script src="scripts/storage.js"></script>
+    <script>
+        function log(id, message) {
+            const logDiv = document.getElementById(id);
+            logDiv.innerHTML += new Date().toLocaleTimeString() + ': ' + message + '<br>';
+        }
+        
+        function testStorageManager() {
+            log('storage-log', '开始测试StorageManager...');
+            try {
+                if (window.storageManager) {
+                    log('storage-log', '✅ StorageManager已初始化');
+                    
+                    // 测试获取用户
+                    const adminUser = window.storageManager.getUserByUsername('admin');
+                    if (adminUser) {
+                        log('storage-log', '✅ 找到管理员用户: ' + adminUser.username);
+                        log('storage-log', '管理员角色: ' + adminUser.role);
+                    } else {
+                        log('storage-log', '❌ 未找到管理员用户');
+                    }
+                } else {
+                    log('storage-log', '❌ StorageManager未初始化');
+                }
+            } catch (error) {
+                log('storage-log', '❌ 测试失败: ' + error.message);
+            }
+        }
+        
+        function testLoginValidation() {
+            log('login-log', '开始测试登录验证...');
+            try {
+                const username = document.getElementById('test-username').value;
+                const password = document.getElementById('test-password').value;
+                
+                log('login-log', '测试用户: ' + username);
+                
+                const user = window.storageManager.validateLogin(username, password);
+                if (user) {
+                    log('login-log', '✅ 登录验证成功');
+                    log('login-log', '用户信息: ' + JSON.stringify(user));
+                    
+                    // 测试保存到sessionStorage
+                    sessionStorage.setItem('currentUser', JSON.stringify(user));
+                    log('login-log', '✅ 保存到sessionStorage成功');
+                } else {
+                    log('login-log', '❌ 登录验证失败');
+                }
+            } catch (error) {
+                log('login-log', '❌ 测试失败: ' + error.message);
+            }
+        }
+        
+        function testSessionStorage() {
+            log('session-log', '开始测试sessionStorage...');
+            try {
+                const userStr = sessionStorage.getItem('currentUser');
+                if (userStr) {
+                    log('session-log', '✅ sessionStorage中有用户信息');
+                    const user = JSON.parse(userStr);
+                    log('session-log', '用户信息: ' + JSON.stringify(user));
+                } else {
+                    log('session-log', '❌ sessionStorage中没有用户信息');
+                }
+            } catch (error) {
+                log('session-log', '❌ 测试失败: ' + error.message);
+            }
+        }
+        
+        function testRedirect() {
+            log('redirect-log', '开始测试跳转...');
+            try {
+                // 测试跳转逻辑
+                const userStr = sessionStorage.getItem('currentUser');
+                if (userStr) {
+                    const user = JSON.parse(userStr);
+                    if (user.role === 'admin') {
+                        log('redirect-log', '✅ 管理员用户，准备跳转到admin.html');
+                        // window.location.replace('admin.html');
+                    } else {
+                        log('redirect-log', '✅ 普通用户，准备跳转到game.html');
+                        // window.location.replace('game.html');
+                    }
+                } else {
+                    log('redirect-log', '❌ 未登录，准备跳转到index.html');
+                    // window.location.replace('index.html');
+                }
+            } catch (error) {
+                log('redirect-log', '❌ 测试失败: ' + error.message);
+            }
+        }
+        
+        // 页面加载时自动测试
+        window.onload = function() {
+            testStorageManager();
+        };
+    </script>
+</body>
+</html>

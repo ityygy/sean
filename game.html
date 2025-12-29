@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小学英语单词游戏 - 游戏界面</title>
+    <link rel="stylesheet" href="styles/game.css">
+</head>
+<body>
+    <div class="game-container">
+        <!-- 顶部导航栏 -->
+        <header class="game-header">
+            <div class="header-left">
+                <h1>英语单词游戏</h1>
+            </div>
+            <div class="header-right">
+                <div class="user-info">
+                    <span id="user-name"></span>
+                    <span class="score-display">积分: <span id="user-score">0</span></span>
+                </div>
+                <button id="profile-btn" class="btn btn-secondary">个人中心</button>
+                <button id="logout-btn" class="btn btn-secondary">退出登录</button>
+            </div>
+        </header>
+        
+        <!-- 游戏主内容 -->
+        <main class="game-main">
+            <!-- 游戏菜单 -->
+            <div id="game-menu" class="game-section active">
+                <h2>欢迎回来！</h2>
+                <div class="menu-options">
+                    <button id="start-practice-btn" class="menu-btn">
+                        <span class="btn-icon">🎮</span>
+                        <span class="btn-text">开始练习</span>
+                    </button>
+
+                    <button id="shop-btn" class="menu-btn">
+                        <span class="btn-icon">🛒</span>
+                        <span class="btn-text">积分商城</span>
+                    </button>
+                    <button id="leaderboard-btn" class="menu-btn">
+                        <span class="btn-icon">🏆</span>
+                        <span class="btn-text">积分排行榜</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- 练习选择界面 -->
+            <div id="practice-select" class="game-section">
+                <h2>选择练习</h2>
+                <div class="section-content">
+                    <!-- 年级选择 -->
+                    <div class="select-group">
+                        <label for="grade-select">选择年级</label>
+                        <select id="grade-select">
+                            <option value="1">一年级</option>
+                            <option value="2">二年级</option>
+                            <option value="3">三年级</option>
+                            <option value="4">四年级</option>
+                            <option value="5">五年级</option>
+                            <option value="6">六年级</option>
+                        </select>
+                    </div>
+                    
+                    <!-- 练习类型选择 -->
+                    <div class="select-group">
+                        <label>选择练习类型</label>
+                        <div class="practice-types">
+                            <button id="word-practice-btn" class="practice-type-btn">
+                                <span class="type-icon">📝</span>
+                                <span class="type-text">单词练习</span>
+                            </button>
+                            <button id="sentence-practice-btn" class="practice-type-btn">
+                                <span class="type-icon">📖</span>
+                                <span class="type-text">句子练习</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- 返回按钮 -->
+                    <button id="back-to-menu-btn" class="btn btn-secondary">返回菜单</button>
+                </div>
+            </div>
+            
+            <!-- 单词练习界面 -->
+            <div id="word-practice" class="game-section">
+                <div class="practice-header">
+                    <h2>📝 单词练习</h2>
+                    <div class="practice-info">
+                        <div class="progress-container">
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="word-progress-fill"></div>
+                            </div>
+                            <span class="question-count">题目: <span id="current-question">1</span>/20</span>
+                        </div>
+                        <span class="practice-score">🏆 积分: <span id="practice-current-score">0</span></span>
+                        <button id="back-from-word-btn" class="btn btn-secondary">返回选择</button>
+                    </div>
+                </div>
+                
+                <div class="practice-content modern-design">
+                    <!-- 问题卡片 -->
+                    <div class="question-card">
+                        <div class="question-type">单词翻译</div>
+                        <div class="chinese-word" id="chinese-word"></div>
+                        <div class="question-audio">
+                            <button id="play-word-audio" class="audio-btn" title="播放英文发音">
+                                🔊 播放发音
+                            </button>
+                        </div>
+                        <div class="question-hint">请输入对应的英文单词</div>
+                    </div>
+                    
+                    <!-- 答案输入区域 -->
+                    <div class="answer-section">
+                        <div class="answer-input modern-input">
+                            <input type="text" id="english-answer" placeholder="请输入英文单词" autocomplete="off">
+                        </div>
+                    </div>
+                    
+                    <!-- 操作按钮区域 -->
+                    <div class="action-buttons">
+                        <button id="check-answer-btn" class="btn btn-primary modern-btn">
+                            <span class="btn-icon">✅</span>
+                            <span class="btn-text">提交答案</span>
+                        </button>
+                        <button id="next-question-btn" class="btn btn-secondary modern-btn">
+                            <span class="btn-icon">➡️</span>
+                            <span class="btn-text">下一题</span>
+                        </button>
+                    </div>
+                    
+                    <!-- 反馈区域 -->
+                    <div id="feedback" class="feedback modern-feedback"></div>
+                    
+                    <!-- 快捷操作 -->
+                    <div class="quick-actions">
+                        <div class="key-hint">💡 提示：按下回车键快速提交</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 句子练习界面 -->
+            <div id="sentence-practice" class="game-section">
+                <div class="practice-header">
+                    <h2>📖 句子练习</h2>
+                    <div class="practice-info">
+                        <div class="progress-container">
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="sentence-progress-fill"></div>
+                            </div>
+                            <span class="question-count">题目: <span id="sentence-current-question">1</span>/20</span>
+                        </div>
+                        <span class="practice-score">🏆 积分: <span id="sentence-current-score">0</span></span>
+                        <button id="back-from-sentence-btn" class="btn btn-secondary">返回选择</button>
+                    </div>
+                </div>
+                
+                <div class="practice-content modern-design">
+                    <!-- 问题卡片 -->
+                    <div class="question-card">
+                        <div class="question-type">句子翻译</div>
+                        <div class="chinese-sentence" id="chinese-sentence"></div>
+                        <div class="question-audio">
+                            <button id="play-sentence-audio" class="audio-btn" title="播放英文发音">
+                                🔊 播放发音
+                            </button>
+                        </div>
+                        <div class="question-hint">请输入对应的英文句子</div>
+                    </div>
+                    
+                    <!-- 答案输入区域 -->
+                    <div class="answer-section">
+                        <div class="answer-input modern-input">
+                            <input type="text" id="sentence-answer" placeholder="请输入完整英文句子" autocomplete="off">
+                        </div>
+                    </div>
+                    
+                    <!-- 操作按钮区域 -->
+                    <div class="action-buttons">
+                        <button id="check-sentence-btn" class="btn btn-primary modern-btn">
+                            <span class="btn-icon">✅</span>
+                            <span class="btn-text">提交答案</span>
+                        </button>
+                        <button id="next-sentence-btn" class="btn btn-secondary modern-btn">
+                            <span class="btn-icon">➡️</span>
+                            <span class="btn-text">下一题</span>
+                        </button>
+                    </div>
+                    
+                    <!-- 反馈区域 -->
+                    <div id="sentence-feedback" class="feedback modern-feedback"></div>
+                    
+                    <!-- 快捷操作 -->
+                    <div class="quick-actions">
+                        <div class="key-hint">💡 提示：按下回车键快速提交</div>
+                    </div>
+                </div>
+            </div>
+            
+
+            
+            <!-- 积分商城界面 -->
+            <div id="shop-section" class="game-section">
+                <h2>🛒 积分商城</h2>
+                <div class="shop-content">
+                    <div class="shop-header">
+                        <div class="your-score">
+                            <span>你的积分：</span>
+                            <span class="score-value" id="shop-score">0</span>
+                        </div>
+                        <button id="back-from-shop-btn" class="btn btn-secondary">返回菜单</button>
+                    </div>
+                    
+                    <!-- 物品分类 -->
+                    <div class="shop-categories">
+                        <button class="category-btn active" data-category="">全部</button>
+                        <button class="category-btn" data-category="文具">文具</button>
+                        <button class="category-btn" data-category="玩具">玩具</button>
+                        <button class="category-btn" data-category="贴纸">贴纸</button>
+                        <button class="category-btn" data-category="生活用品">生活用品</button>
+                    </div>
+                    
+                    <!-- 物品列表 -->
+                    <div class="shop-items-grid" id="shop-items-grid">
+                        <!-- 物品将通过JS动态生成 -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 个人中心界面 -->
+            <div id="profile-section" class="game-section">
+                <h2>👤 个人中心</h2>
+                <div class="profile-content">
+                    <div class="profile-info">
+                        <h3>个人信息</h3>
+                        <div class="info-item">
+                            <span class="info-label">用户名：</span>
+                            <span class="info-value" id="profile-username"></span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">年级：</span>
+                            <span class="info-value" id="profile-grade"></span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">班级：</span>
+                            <span class="info-value" id="profile-class"></span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">学校：</span>
+                            <span class="info-value" id="profile-school"></span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">当前积分：</span>
+                            <span class="info-value score-value" id="profile-score">0</span>
+                        </div>
+                    </div>
+                    
+                    <div class="owned-items">
+                        <h3>我的物品</h3>
+                        <div class="owned-items-grid" id="owned-items-grid">
+                            <!-- 拥有的物品将通过JS动态生成 -->
+                        </div>
+                    </div>
+                    
+                    <div class="profile-actions">
+                        <button id="back-from-profile-btn" class="btn btn-secondary">返回菜单</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 积分排行榜界面 -->
+            <div id="leaderboard-section" class="game-section">
+                <h2>🏆 积分排行榜</h2>
+                <div class="leaderboard-content">
+                    <!-- 前三名展示区域 -->
+                    <div class="top-three-container">
+                        <div class="top-three-header">
+                            <h3>积分榜前三名</h3>
+                        </div>
+                        <div class="top-three">
+                            <!-- 第二名 -->
+                            <div class="top-user second-place">
+                                <div class="medal silver">🥈</div>
+                                <div class="user-info">
+                                    <div class="user-name" id="game-second-username">暂无用户</div>
+                                    <div class="user-score" id="game-second-score">0</div>
+                                    <div class="user-grade-class" id="game-second-grade-class">--年级--班</div>
+                                </div>
+                            </div>
+                            <!-- 第一名 -->
+                            <div class="top-user first-place">
+                                <div class="medal gold">🥇</div>
+                                <div class="user-info">
+                                    <div class="user-name" id="game-first-username">暂无用户</div>
+                                    <div class="user-score" id="game-first-score">0</div>
+                                    <div class="user-grade-class" id="game-first-grade-class">--年级--班</div>
+                                </div>
+                            </div>
+                            <!-- 第三名 -->
+                            <div class="top-user third-place">
+                                <div class="medal bronze">🥉</div>
+                                <div class="user-info">
+                                    <div class="user-name" id="game-third-username">暂无用户</div>
+                                    <div class="user-score" id="game-third-score">0</div>
+                                    <div class="user-grade-class" id="game-third-grade-class">--年级--班</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 完整排行榜表格 -->
+                    <div class="table-container">
+                        <h3>完整积分排行榜</h3>
+                        <div class="leaderboard-table-wrapper">
+                            <table id="game-leaderboard-table" class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>排名</th>
+                                        <th>用户名</th>
+                                        <th>年级</th>
+                                        <th>班级</th>
+                                        <th>学校</th>
+                                        <th>积分</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="game-leaderboard-body">
+                                    <!-- 排行榜数据将通过JS动态生成 -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <!-- 返回按钮 -->
+                    <div class="leaderboard-actions">
+                        <button id="back-from-leaderboard-btn" class="btn btn-secondary">返回菜单</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 练习结果界面 -->
+            <div id="practice-result" class="game-section">
+                <h2>练习完成！</h2>
+                <div class="result-content">
+                    <div class="result-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">总题目数</span>
+                            <span class="stat-value">20</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">答对题目</span>
+                            <span class="stat-value" id="correct-count">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">获得积分</span>
+                            <span class="stat-value" id="earned-score">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">正确率</span>
+                            <span class="stat-value" id="accuracy">0%</span>
+                        </div>
+                    </div>
+                    
+                    <div class="result-actions">
+                        <button id="play-again-btn" class="btn btn-primary">再玩一次</button>
+                        <button id="back-to-menu-from-result-btn" class="btn btn-secondary">返回菜单</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <!-- 底部信息 -->
+        <footer class="game-footer">
+            <p>小学英语单词游戏 &copy; 2024</p>
+        </footer>
+    </div>
+    
+    <!-- 奖励动画元素 -->
+    <div id="reward-animation" class="reward-animation"></div>
+    
+    <script src="scripts/storage.js"></script>
+    <script src="scripts/game.js"></script>
+</body>
+</html>
